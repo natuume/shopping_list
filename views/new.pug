@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  form(method="post", action="/shopping_lists")
+    div
+      h5 お買い物するものの名前
+      input(type="text" name ="shopping_list_Name")
+    div
+      h5 メモ
+      textarea(name="memo")
+    div
+      h5　お買い物候補（改行して複数入力してください）
+      textarea(name="candidates")
+    button(type="submit") お買い物候補をつくる
