@@ -14,6 +14,10 @@ const Shopping_list = loader.database.define(
       type:Sequelize.STRING,
       allowNull: false
     },
+    // username: {
+    //   type: Sequelize.STRING,
+    //   allowNull: false
+    // },→ダメでした後で問題になるのだったらデータベース作り直してみる
     memo: {
       type:Sequelize.TEXT,
       allowNull:false

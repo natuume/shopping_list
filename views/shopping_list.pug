@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h4 #{shopping_list.shopping_list_Name}
+  p(style="white-space:pre;") #{shopping_list.memo}
+  //- p 作成者: #{shopping_list.user.username} 何故かエラー吐くのでshopping_list削除
+  p 作成者: #{user.username}
+  h3 お買い物リスト
+  table
+    tr
+      th お買い物の予定
+      each user in users
+        - var buy = buyMapMap.get(user.userId).get(candidate.candidateId)
+        - var buyLabels =['✕','？','〇'];
+        th #{user.username}
+    each candidate in candidates
+      tr
+        th #{candidate.candidateName}
+        each user in users
+          td
+            if user.isSelf
+              button #{buyLabels[buy]}
+            else
+              p #{buyLabels[buy]}

@@ -5,6 +5,22 @@ block content
   p Welcome to #{title}
   div
     if user
-      a(href="/logout") #{user.username} をログアウト
+        div
+          a(href="/logout") #{user.username} をログアウト
+        div
+          a(href="/shopping_lists/new") お買いものリストを作る
+        - var hasShopping_list = shopping_lists.length > 0
+        if hasShopping_list
+          h3 あなたの作った予定一覧
+          table.table
+            tr
+              th お買いもの名
+              th 更新日時
+            each shopping_list in shopping_lists
+              tr
+                td
+                  a(href=`/shopping_lists/${shopping_list.shopping_list_Id}`) #{shopping_list.shopping_list_Name}
+                td #{shopping_list.updatedAt}
     else
-      a(href="/login") ログイン
+      div
+        a(href="/login") ログイン
