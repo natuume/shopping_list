@@ -70,7 +70,8 @@ passport.use(new GitHubStrategy({
 var indexRouter = require('./routes/index');//index.jsの読み込み
 var loginRouter = require('./routes/login');//login.jsの読み込み
 var logoutRouter= require('./routes/logout');//logout.jsの読み込み
-var shopping_lists_Router= require('./routes/shopping_lists')//shopping_lists.jsの読み込み
+var shopping_listsRouter= require('./routes/shopping_lists')//shopping_lists.jsの読み込み
+var buysRouter = require('./routes/buys');
 
 var app = express();
 app.use(helmet());//セキュリティ対策
@@ -99,7 +100,7 @@ app.use(passport.session());//passportのセッションを使う設定
 app.use('/', indexRouter);// router/index.js
 app.use('/login', loginRouter);// router/login.js
 app.use('/logout',logoutRouter);// router/logout.js
-app.use('/shopping_lists',shopping_lists_Router)//router/shopping_lists.js
+app.use('/shopping_lists',shopping_listsRouter)//router/shopping_lists.js
 
 //パスに対するHTTPリクエストハンドラの登録
 //GitHubへの認証を行う処理をGETで/auth/githubへアクセスした際に行う処理
