@@ -4,7 +4,7 @@
 const express =require('express');
 const router = express.Router();
 const authenticationEnsurer = require('./authentication-ensurer');
-const Buy = require('../models/availability');
+const Buy = require('../models/buy');
 
 router.post(
   '/:shopping_list_Id/users/:userId/candidates/:candidateId',
