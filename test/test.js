@@ -2,6 +2,7 @@
 //テストのために読み込むファイル
 const request = require('supertest');//supertest(Routerの挙動テストのモジュール）の読み込み
 const app = require('../app');//テストのためにapp.jsの読み込み
+const assert = require('assert');//アサートモジュール 不変かどうか
 const passportStub = require('passport-stub');//passportStub(GitHub認証のログインログアウト処理をテスト内で模倣するモジュール)
 const Buy = require('../models/buy');
 
@@ -88,11 +89,11 @@ describe('shopping_lists', () => {
 describe('/shopping_lists/:shopping_list_Id/users/:userId/candidates/:candidateId', () => {
   beforeAll(() => {
     passportStub.install(app);
-    passportStub.login({ id: 0, username: 'testuser' });
+    passportStub.login({ id: 0, username: 'testuser' });//ログイン
   });
 
   afterAll(() => {
-    passportStub.logout();
+    passportStub.logout();//ログアウト
     passportStub.uninstall(app);
   });
 
@@ -113,7 +114,15 @@ describe('/shopping_lists/:shopping_list_Id/users/:userId/candidates/:candidateI
               .post(`/shopping_lists/${shopping_list_Id}/users/${userId}/candidates/${candidate.candidateId}`)
               .send({ buy: 2 }) // 〇に更新
               .expect('{"status":"OK","buy":2}')
-              .end((err, res) => { deleteShopping_listAggregate(shopping_list_Id, done, err); });
+              .end((err, res) => {
+                Buy.findAll({
+                  where: { scheduleId: scheduleId }
+                }).then((buys) => {
+                  assert.strictEqual(buys.length, 1);
+                  assert.strictEqual(buys[0].buy,2);
+                  deleteScheduleAggregate(scheduleId, done, err);
+                });
+              });
           });
         });
     });

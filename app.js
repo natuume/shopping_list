@@ -101,6 +101,7 @@ app.use('/', indexRouter);// router/index.js
 app.use('/login', loginRouter);// router/login.js
 app.use('/logout',logoutRouter);// router/logout.js
 app.use('/shopping_lists',shopping_listsRouter)//router/shopping_lists.js
+app.use('/buys',buysRouter)//router/buys.js buyの値が読み取られなくなっていたので。TODO//あとで表示確認
 
 //パスに対するHTTPリクエストハンドラの登録
 //GitHubへの認証を行う処理をGETで/auth/githubへアクセスした際に行う処理
