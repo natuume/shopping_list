@@ -114,6 +114,20 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()('.buy-toggle-button').each(functio
     });
   });
 });
+var buttonSelfComment = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#self-comment-button');
+buttonSelfComment.click(function () {
+  var shopping_list_Id = buttonSelfComment.data('shopping_list-id');
+  var userId = buttonSelfComment.data('user-id');
+  var comment = prompt('コメントを255文字以内で入力してください。');
+
+  if (comment) {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.post("/shopping_lists/".concat(shopping_list_Id, "/users/").concat(userId, "/comments"), {
+      comment: comment
+    }, function (data) {
+      jquery__WEBPACK_IMPORTED_MODULE_0___default()('#self-comment').text(data.comment);
+    });
+  }
+});
 
 /***/ }),
 /* 1 */

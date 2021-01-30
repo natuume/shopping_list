@@ -3,20 +3,23 @@ extends layout
 block content
   h4 #{shopping_list.shopping_list_Name}
   p(style="white-space:pre;") #{shopping_list.memo}
-  //- p 作成者: #{shopping_list.user.username} 何故かエラー吐くのでshopping_list削除
-  p 作成者: #{user.username}
-  h3 お買い物リスト
+  p 作成者: #{shopping_list.user.username}
+  - var isMine = parseInt(user.id) === shopping_list.user.userId
+  if isMine
+    div
+      a(href=`/shopping_lists/${shopping_list.shopping_list_Id}/edit`) この予定を編集する
+  h3 〇✕表
   table
     tr
-      th お買い物の予定
+      th 予定
       each user in users
-        - var buy = buyMapMap.get(user.userId).get(candidate.candidateId)
-        - var buyLabels =['✕','？','〇'];
         th #{user.username}
     each candidate in candidates
       tr
         th #{candidate.candidateName}
         each user in users
+          - var buy = buyMapMap.get(user.userId).get(candidate.candidateId)
+          - var buyLabels = ['〇', '？', '✕'];
           td
             if user.isSelf
               button(
@@ -26,3 +29,15 @@ block content
                 data-buy=buy).buy-toggle-button #{buyLabels[buy]}
             else
               p #{buyLabels[buy]}
+    tr
+      th コメント
+      each user in users
+        if user.isSelf
+          td
+            p#self-comment #{commentMap.get(user.userId)}
+            button(
+              data-shopping_list-id=shopping_list.shopping_list_Id
+              data-user-id=user.userId)#self-comment-button 編集
+        else
+          td
+            p #{commentMap.get(user.userId)}

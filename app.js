@@ -15,17 +15,17 @@ var Candidate = require('./models/candidate');//models/candidate.js
 var Comment = require('./models/comment');//models/comment.js
 
 User.sync().then(() => {//sync関数でデータベースのテーブル呼び出し。Userに対応するテーブルの作成が終わった後に実行処理を以下に無名関数で記述
-  Shopping_list.belongsTo(User,{foreigKey: 'createdBy'});
+  Shopping_list.belongsTo(User,{foreignKey: 'createdBy'});
   Shopping_list.sync();
   //従属エンティティ設定。createdByでUserの外部キーであることを設定。Shopping_listに対応するテーブル作成
-  Comment.belongsTo(User,{foreigKey: 'userId'});
+  Comment.belongsTo(User,{foreignKey: 'userId'});
   Comment.sync();
   //CommentがUserに従属していることを定義 Commentに対するテーブル作成
-  Buy.belongsTo(User,{foreigKey:'userId'});
+  Buy.belongsTo(User,{foreignKey:'userId'});
   //BuyがUserに従属していることを定義
   Candidate.sync().then(() =>{
     //お買い物候補に対するテーブルを作成。
-    Buy.belongsTo(Candidate,{foreigKey:'candidateId'});
+    Buy.belongsTo(Candidate,{foreignKey:'candidateId'});
     //買うor買わないor?がお買い物候補に従属していることを定義
     Buy.sync();
     //買うor買わないに対するテーブル作成
@@ -70,8 +70,10 @@ passport.use(new GitHubStrategy({
 var indexRouter = require('./routes/index');//index.jsの読み込み
 var loginRouter = require('./routes/login');//login.jsの読み込み
 var logoutRouter= require('./routes/logout');//logout.jsの読み込み
-var shopping_listsRouter= require('./routes/shopping_lists')//shopping_lists.jsの読み込み
-var buysRouter = require('./routes/buys');
+var shopping_listsRouter= require('./routes/shopping_lists');//shopping_lists.jsの読み込み
+var buysRouter =require('./routes/buys');
+var commentsRouter =require('./routes/comments');
+
 
 var app = express();
 app.use(helmet());//セキュリティ対策
@@ -96,12 +98,13 @@ app.use(session({
 app.use(passport.initialize());//passportのセッション初期化
 app.use(passport.session());//passportのセッションを使う設定
 
-//''内のパスにアクセスされたら隣にあるRouterオブジェクトを返す設定
+//''内のパスにアクセスされたら隣にあるルーターオブジェクトを返す設定
 app.use('/', indexRouter);// router/index.js
 app.use('/login', loginRouter);// router/login.js
 app.use('/logout',logoutRouter);// router/logout.js
 app.use('/shopping_lists',shopping_listsRouter)//router/shopping_lists.js
-app.use('/buys',buysRouter)//router/buys.js buyの値が読み取られなくなっていたので。TODO//あとで表示確認
+app.use('/shopping_lists',buysRouter);
+app.use('/shopping_lists',commentsRouter);
 
 //パスに対するHTTPリクエストハンドラの登録
 //GitHubへの認証を行う処理をGETで/auth/githubへアクセスした際に行う処理
@@ -117,12 +120,6 @@ app.get('/auth/github/callback',
     res.redirect('/');//認証に成功したら/にリダイレクト
 });
 
-
-// /users　へのアクセスに認証が必要になる設定。あれ？users無くなったからいらない？→変更で良かったみたい。
-// app.use('/users', ensureAuthenticated, usersRouter);
-//loginに差し替えてみる
-  app.use('/login',ensureAuthenticated,loginRouter);
-
 //GitHub の OAuth2.0 で認可される権限の範囲
 app.get('/auth/github',
   passport.authenticate('github', { scope: ['user:email'] }),
@@ -135,23 +132,17 @@ app.get('/auth/github/callback',
     res.redirect('/');// '/'へリダイレクト
 });
 
-//ログインページ
-app.get('/login', function (req, res) {
-    res.render('login');
-  });
+//不要？
+// //ログインページ
+// app.get('/login', function (req, res) {
+//     res.render('login');
+//   });
 
-//ログアウトページ
-app.get('/logout', function (req, res) {
-    req.logout();
-    res.redirect('/');
-  });
-
-//認証を通っていない場合は /login　へリダイレクト
-function ensureAuthenticated(req,res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
-}
-
+// //ログアウトページ
+// app.get('/logout', function (req, res) {
+//     req.logout();
+//     res.redirect('/');
+//   });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
