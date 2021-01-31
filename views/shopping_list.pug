@@ -23,7 +23,7 @@ block content
         th #{candidate.candidateName}
         each user in users
           - var buy = buyMapMap.get(user.userId).get(candidate.candidateId)
-          - var buyLabels = ['〇', '？', '✕'];
+          - var buyLabels = ['✕', '？', '〇'];
           - var buttonStyles = ['btn-danger', 'btn-secondary', 'btn-success'];
           td
             if user.isSelf

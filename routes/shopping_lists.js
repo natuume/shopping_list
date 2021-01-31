@@ -8,17 +8,16 @@ const Candidate = require ('../models/candidate');
 const User = require('../models/user');
 const Buy =require('../models/buy');
 const Comment =require('../models/comment');
+const csrf = require('csurf');
+const csrfProtection =csrf({cookie: true});
 
-
-router.get('/new', authenticationEnsurer, (req, res, next) => {
-  res.render('new', { user: req.user });
+router.get('/new', authenticationEnsurer, csrfProtection,(req, res, next) => {
+  res.render('new', { user: req.user, csrfToken: req.csrfToken() });
 });
 
-router.post('/', authenticationEnsurer, (req, res, next) => {
+router.post('/', authenticationEnsurer, csrfProtection, (req, res, next) => {
   const shopping_list_Id = uuid.v4();//ID生成
   const updatedAt = new Date();//更新日時生成
-
-  //Shopping_Listをデータベース内に保存
   Shopping_list.create({
     shopping_list_Id: shopping_list_Id,//ID
     shopping_list_Name: req.body.shopping_list_Name.slice(0, 255) || '（名称未設定）',//名前。データベース上の長さ制限のため255文字制限 ||で空の文字を名称未設定に設定。
@@ -26,12 +25,9 @@ router.post('/', authenticationEnsurer, (req, res, next) => {
     createdBy: req.user.id,//USER ID
     updatedAt: updatedAt//更新日時
   }).then((shopping_list) => {//上記の内容保存し終わったら実行
-    createCandidatesAndRedirect
-    (parseCandidateNames(req),
-    shopping_list_Id,res);
+    createCandidatesAndRedirect(parseCandidateNames(req),shopping_list_Id,res);
     });//createCandidatesAndRedirect関数で候補の作成とリダイレクト
-  });
-  
+  });  
 //sequelzeを利用してテーブル結合してユーザーを取得
 router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
   let storedShopping_list= null;
@@ -58,23 +54,19 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
       err.status =404;
       next(err);
     }
-  })
-  .then((candidates) => {
+  }).then((candidates) => {
   //データベースからその予定の全ての〇✕を取得する
-  storedCandidates = candidates;
-  return Buy.findAll({
-    include:[
-      {
-        model: User,
-        attributes: ['userId','username']
-      }
-    ],
-    where:{ shopping_list_Id:storedShopping_list.shopping_list_Id },
-    order:[
-      [User,'username','ASC'],
-      ['candidateId','ASC']
-    ]
-  });
+  　storedCandidates = candidates;
+    return Buy.findAll({
+      include:[
+        {
+          model: User,
+          attributes: ['userId','username']
+        }
+      ],
+      where:{ shopping_list_Id:storedShopping_list.shopping_list_Id },
+      order:[[User,'username','ASC'],['candidateId','ASC']]
+    });
   }).then((buys) => {
     // 〇✕（買った買わない）MapMap(キー:ユーザー ID, 値:〇✕Map(キー:候補 ID, 値:〇✕)) を作成する
     const buyMapMap = new Map(); // key: userId, value: Map(key: candidateId, buy)
@@ -98,6 +90,7 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
         username: a.user.username
     });
   });
+
   // 全ユーザー、全候補で二重ルーしてそれぞれの〇✕の値がない場合には、「〇✕」を設定する
       const users = Array.from(userMap).map((keyValue) => keyValue[1]);
       users.forEach((u) => {
@@ -129,7 +122,7 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
   });
 });
 //編集フォーム関連
-router.get('/:shopping_list_Id/edit', authenticationEnsurer, (req, res, next) => {//URLは表示ページの末尾に/editを加えたもの
+router.get('/:shopping_list_Id/edit', authenticationEnsurer, csrfProtection,(req, res, next) => {//URLは表示ページの末尾に/editを加えたもの
   Shopping_list.findOne({//Idの中身を取得
     where: {
       shopping_list_Id: req.params.shopping_list_Id
@@ -143,7 +136,8 @@ router.get('/:shopping_list_Id/edit', authenticationEnsurer, (req, res, next) =>
         res.render('edit', {
           user: req.user,
           shopping_list: shopping_list,
-          candidates: candidates
+          candidates: candidates,
+          csrfToken: req.csrfToken()
         });
       });
     } else {
@@ -158,7 +152,7 @@ function isMine(req, shopping_list) {
   return shopping_list && parseInt(shopping_list.createdBy) === parseInt(req.user.id);
 }//　リストが自分のものであるか真偽値を返す　parseInt=文字列を整数に変換　&&＝アンド　
 
-router.post('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
+router.post('/:shopping_list_Id', authenticationEnsurer,csrfProtection, (req, res, next) => {
   Shopping_list.findOne({
     where: {
       shopping_list_Id: req.params.shopping_list_Id
@@ -246,4 +240,3 @@ function parseCandidateNames(req) {
 }
 
 module.exports = router;
-

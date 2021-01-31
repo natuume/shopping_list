@@ -1,15 +1,10 @@
-// availablities.jsから移行
-/*「買ったか、買わないか、わからない」を〇✕？で実装*/
 'use strict';
 const express =require('express');
 const router = express.Router();
 const authenticationEnsurer = require('./authentication-ensurer');
 const Buy = require('../models/buy');
 
-router.post(
-  '/:shopping_list_Id/users/:userId/candidates/:candidateId',
-  authenticationEnsurer,
-  (req ,res ,next) => {
+router.post('/:shopping_list_Id/users/:userId/candidates/:candidateId',authenticationEnsurer,(req ,res ,next) => {
     const shopping_list_Id = req.params.shopping_list_Id;
     const userId =req.params.userId;
     const candidateId = req.params.candidateId;

@@ -3,14 +3,15 @@ extends layout
 block content
   h3.my-3 予定の編集
   form(method="post", action=`/shopping_lists/${shopping_list.shopping_list_Id}?edit=1`)
+    input(type="hidden" name="_csrf" value!=csrfToken)
     div.form-group
-      label(for="shopping_list_Name") 予定名
+      label(for="shopping_list_Name") お買い物リスト名
       input(type="text" name="shopping_list_Name" value=shopping_list.shopping_list_Name)#shopping_list.form-control
-    div form-group
+    div.form-group
       label(for="memo") メモ
       textarea(name="memo")#memo.form-control #{shopping_list.memo}
     div.form-group
-      label 既存のお買いもの候補
+      label お買いもの候補一覧
       ul.list-group
         each candidate in candidates
           li.list-group-item #{candidate.candidateName}
@@ -18,6 +19,7 @@ block content
       textarea(name="candidates")#candidates.form-control
     div
       button(type="submit").btn.vtn-info 以上の内容でお買いものリストを編集する
-  h3.my-3 危険な変更
+  h3.my-3 リストの削除（元に戻せません）
   form(method="post",action=`/shopping_lists/${shopping_list.shopping_list_Id}?delete=1`)
-    button(type="submit").btn.btn-danger この予定を削除する
+    input(type="hidden" name="_csrf" value!=csrfToken)
+    button(type="submit").btn.btn-danger このお買いものリストを削除する
