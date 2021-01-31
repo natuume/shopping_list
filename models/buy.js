@@ -2,9 +2,7 @@
 const loader =require('./sequelize-loader');
 const Sequelize = loader.Sequelize;
 
-const Buy = loader.database.define(
-  'buys',
-  {
+const Buy = loader.database.define('buys',{
     candidateId:{
       type: Sequelize.INTEGER,//整数型
       primaryKey: true,//主キー

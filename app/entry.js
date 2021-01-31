@@ -2,7 +2,7 @@
 import $ from 'jquery';
 const global = Function('return this;')();
 global.jQuery = $;
-import bootstrap from 'bootstrap';
+const bootstrap = ('bootstrap');
 
 $('.buy-toggle-button').each((i, e) => {
   const button = $(e);
@@ -23,8 +23,11 @@ $('.buy-toggle-button').each((i, e) => {
         const buttonStyles = ['btn-danger', 'btn-secondary', 'btn-success'];
         button.removeClass('btn-danger btn-secondary btn-success');
         button.addClass(buttonStyles[data.buy]);
-      }
-    );
+
+        const tdBuyClasses = ['bg-danger', 'bg-default', 'bg-success'];
+        button.parent().removeClass('bg-danger bg-default bg-success');
+        button.parent().addClass(tdBuyClasses[data.buy]);
+      });
   });
 });
 

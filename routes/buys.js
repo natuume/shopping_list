@@ -12,7 +12,7 @@ router.post('/:shopping_list_Id/users/:userId/candidates/:candidateId',authentic
     buy = buy ? parseInt(buy) : 0;
     
     Buy.upsert({
-      shopping_list_Id:shopping_list_Id,
+      shopping_list_Id: shopping_list_Id,
       userId: userId,
       candidateId: candidateId,
       buy :buy

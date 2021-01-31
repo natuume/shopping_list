@@ -1,11 +1,11 @@
 extends layout
 
 block content
-  h3.my-3 予定の編集
+  h3.my-3 お買いものリストの編集
   form(method="post", action=`/shopping_lists/${shopping_list.shopping_list_Id}?edit=1`)
     input(type="hidden" name="_csrf" value!=csrfToken)
     div.form-group
-      label(for="shopping_list_Name") お買い物リスト名
+      label(for="shopping_list_Name") お買いものリスト名
       input(type="text" name="shopping_list_Name" value=shopping_list.shopping_list_Name)#shopping_list.form-control
     div.form-group
       label(for="memo") メモ

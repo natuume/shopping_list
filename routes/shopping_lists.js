@@ -50,7 +50,7 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
         order: [['candidateId', 'ASC']]
       });
     } else {
-      const err = new Error('指定された予定は見つかりません');
+      const err = new Error('指定されたリストは見つかりません');
       err.status = 404;
       next(err);
     }
@@ -68,7 +68,7 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
       order: [[User, 'username', 'ASC'], ['"candidateId"', 'ASC']]
     });
   }).then((buys) => {
-    // 出欠 MapMap(キー:ユーザー ID, 値:出欠Map(キー:候補 ID, 値:出欠)) を作成する
+    // 〇✕ MapMap(キー:ユーザー ID, 値:〇✕Map(キー:候補 ID, 値:出欠)) を作成する
     const buyMapMap = new Map(); // key: userId, value: Map(key: candidateId, buy)
     buys.forEach((a) => {
       const map = buyMapMap.get(a.user.userId) || new Map();
@@ -76,7 +76,7 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
       buyMapMap.set(a.user.userId, map);
     });
 
-    // 閲覧ユーザーと出欠に紐づくユーザーからユーザー Map (キー:ユーザー ID, 値:ユーザー) を作る
+    // 閲覧ユーザーと〇✕に紐づくユーザーからユーザー Map (キー:ユーザー ID, 値:ユーザー) を作る
     const userMap = new Map(); // key: userId, value: User
     userMap.set(parseInt(req.user.id), {
       isSelf: true,
@@ -91,7 +91,7 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
       });
     });
 
-    // 全ユーザー、全候補で二重ループしてそれぞれの出欠の値がない場合には、「欠席」を設定する
+    // 全ユーザー、全候補で二重ループしてそれぞれの〇✕の値がない場合には、「✕」を設定する
     const users = Array.from(userMap).map((keyValue) => keyValue[1]);
     users.forEach((u) => {
       storedCandidates.forEach((c) => {
@@ -141,7 +141,7 @@ router.get('/:shopping_list_Id/edit', authenticationEnsurer, csrfProtection, (re
         });
       });
     } else {
-      const err = new Error('指定された予定がない、または、予定する権限がありません');
+      const err = new Error('指定されたリストがない、または、リストをつくる権限がありません');
       err.status = 404;
       next(err);
     }
@@ -186,7 +186,7 @@ router.post('/:shopping_list_Id', authenticationEnsurer, csrfProtection, (req, r
         next(err);
       }
     } else {
-      const err = new Error('指定された予定がない、または、編集する権限がありません');
+      const err = new Error('指定されたリストがない、または、編集する権限がありません');
       err.status = 404;
       next(err);
     }

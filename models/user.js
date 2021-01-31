@@ -2,9 +2,7 @@
 const loader = require('./sequelize-loader');
 const Sequelize = loader.Sequelize;
 
-const User = loader.database.define(
-  'users',
-  {
+const User = loader.database.define('users',{
     userId: {
       type: Sequelize.INTEGER,//整数型
       primaryKey: true,//主キー
@@ -14,8 +12,7 @@ const User = loader.database.define(
       type: Sequelize.STRING,
       allowNull: false
     }
-  },
-  {
+  },{
     freezeTableName: true,
     timestamps: false
   }

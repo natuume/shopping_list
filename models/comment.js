@@ -2,9 +2,7 @@
 const loader = require('./sequelize-loader');
 const Sequelize = loader.Sequelize;
 
-const Comment = loader.database.define(
-  'comments',
-  {
+const Comment = loader.database.define('comments',{
     shopping_list_Id:{
       type: Sequelize.UUID,
       primaryKey:true, // 主キー
@@ -23,7 +21,6 @@ const Comment = loader.database.define(
   {
     freezeTabName:true,
     timestamps: false
-  }
-);
+  });
 
 module.exports =Comment;

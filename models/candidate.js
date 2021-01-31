@@ -2,9 +2,7 @@
 const loader = require('./sequelize-loader');
 const Sequelize = loader.Sequelize;
 
-const Candidate = loader.database.define(
-  'candidates',
-  {
+const Candidate = loader.database.define('candidates',{
     candidateId:{
       type: Sequelize.INTEGER,//整数型
       primaryKey: true,　//主キー
@@ -19,8 +17,7 @@ const Candidate = loader.database.define(
       type: Sequelize.UUID,
       allowNull:false
     }
-  },
-  {
+  },{
     freezeTableName: true,
     timestamps: false,
     indexes: [
