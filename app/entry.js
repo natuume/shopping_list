@@ -1,6 +1,8 @@
 'use strict';
-'use strict';
 import $ from 'jquery';
+const global = Function('return this;')();
+global.jQuery = $;
+import bootstrap from 'bootstrap';
 
 $('.buy-toggle-button').each((i, e) => {
   const button = $(e);
@@ -17,6 +19,10 @@ $('.buy-toggle-button').each((i, e) => {
         button.data('buy', data.buy);
         const buyLabels = ['〇', '？', '✕'];
         button.text(buyLabels[data.buy]);
+
+        const buttonStyles = ['btn-danger', 'btn-secondary', 'btn-success'];
+        button.removeClass('btn-danger btn-secondary btn-success');
+        button.addClass(buttonStyles[data.buy]);
       }
     );
   });

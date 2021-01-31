@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const Shopping_list = require('../models/shopping_list');
+const moment =require('moment-timezone');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -14,6 +15,9 @@ router.get('/', function(req, res, next) {
       },
       order: [['updatedAt','DESC']]//DESCは降順ASCは昇順 Orderはソート 作成日時順にソート
     }).then(shopping_lists => {
+      shopping_lists.forEach((shopping_list) => {
+        shopping_list.formattedUpdatedAt = moment(shopping_list.updatedAt).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
+      });
       res.render('index',{
         title: title,
         user: req.user,

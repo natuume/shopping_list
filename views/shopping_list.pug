@@ -1,15 +1,19 @@
 extends layout
 
 block content
-  h4 #{shopping_list.shopping_list_Name}
-  p(style="white-space:pre;") #{shopping_list.memo}
-  p 作成者: #{shopping_list.user.username}
-  - var isMine = parseInt(user.id) === shopping_list.user.userId
+  div.card.my-3
+    div.card-header
+      h4 #{shopping_list.shopping_list_Name}
+    div.card-body
+      p(style="white-space:pre;") #{shopping_list.memo}
+    div.card-footer
+      p 作成者: #{shopping_list.user.username}
+  - var isMine = parseInt(user.id) ===  shopping_list.user.userId
   if isMine
     div
-      a(href=`/shopping_lists/${shopping_list.shopping_list_Id}/edit`) この予定を編集する
-  h3 〇✕表
-  table
+      a(href=`/shopping_lists/${shopping_list.shopping_list_Id}/edit`).btn.btn-info この予定を編集する
+  h3.my-3 〇✕表
+  table.table.table-bordered
     tr
       th 予定
       each user in users
@@ -20,13 +24,14 @@ block content
         each user in users
           - var buy = buyMapMap.get(user.userId).get(candidate.candidateId)
           - var buyLabels = ['〇', '？', '✕'];
+          - var buttonStyles = ['btn-danger', 'btn-secondary', 'btn-success'];
           td
             if user.isSelf
               button(
                 data-shopping_list-id=shopping_list.shopping_list_Id
                 data-user-id=user.userId
                 data-candidate-id=candidate.candidateId
-                data-buy=buy).buy-toggle-button #{buyLabels[buy]}
+                data-buy=buy) #{buyLabels[buy]}
             else
               p #{buyLabels[buy]}
     tr
@@ -34,10 +39,12 @@ block content
       each user in users
         if user.isSelf
           td
-            p#self-comment #{commentMap.get(user.userId)}
+            p
+              small#self-comment #{commentMap.get(user.userId)}
             button(
               data-shopping_list-id=shopping_list.shopping_list_Id
-              data-user-id=user.userId)#self-comment-button 編集
+              data-user-id=user.userId)#self-comment-button.btn.btn-info 編集
         else
           td
-            p #{commentMap.get(user.userId)}
+            p 
+              small #{commentMap.get(user.userId)}

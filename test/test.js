@@ -8,7 +8,7 @@ const Shopping_list = require('../models/shopping_list');
 const Candidate = require('../models/candidate');
 const Buy = require('../models/buy');
 const Comment = require('../models/comment');
-const deleteShopping_listAggregate = require('../routes/shopping_lists').deleteShopping_listAggregate;
+const deleteShopping_ListAggregate = require('../routes/shopping_lists').deleteShopping_ListAggregate;
 
 describe('/login', () => {
   beforeAll(() => {
@@ -25,7 +25,7 @@ describe('/login', () => {
     return request(app)
       .get('/login')
       .expect('Content-Type', 'text/html; charset=utf-8')
-      .expect(/<a href="\/auth\/github"/)
+      .expect(/<a class="btn btn-info my-3" href="\/auth\/github"/)
       .expect(200);
   });
   
@@ -79,7 +79,7 @@ describe('/shopping_lists', () => {
             .expect(/テスト候補2/)
             .expect(/テスト候補3/)
             .expect(200)
-            .end((err, res) => { deleteShopping_listAggregate(createdShopping_listPath.split('/shopping_lists/')[1], done, err);});
+            .end((err, res) => { deleteShopping_ListAggregate(createdShopping_listPath.split('/shopping_lists/')[1], done, err);});
         });
     });
   });
@@ -96,11 +96,11 @@ describe('/shopping_lists/:shopping_list_Id/users/:userId/candidates/:candidateI
     passportStub.uninstall(app);
   });
   
-  test('出欠が更新できる', (done) => {
+  test('〇✕が更新できる', (done) => {
     User.upsert({ userId: 0, username: 'testuser' }).then(() => {
       request(app)
         .post('/shopping_lists')
-        .send({ shopping_list_Name: 'テスト出欠更新予定1', memo: 'テスト出欠更新メモ1', candidates: 'テスト出欠更新候補1' })
+        .send({ shopping_list_Name: 'テスト〇✕更新予定1', memo: 'テスト〇✕更新メモ1', candidates: 'テスト〇✕更新候補1' })
         .end((err, res) => {
           const createdShopping_listPath = res.headers.location;
           const shopping_list_Id = createdShopping_listPath.split('/shopping_lists/')[1];
@@ -111,7 +111,7 @@ describe('/shopping_lists/:shopping_list_Id/users/:userId/candidates/:candidateI
             const userId = 0;
             request(app)
               .post(`/shopping_lists/${shopping_list_Id}/users/${userId}/candidates/${candidate.candidateId}`)
-              .send({ buy: 2 }) // 出席に更新
+              .send({ buy: 2 }) // 〇に更新
               .expect('{"status":"OK","buy":2}')
               .end((err, res) => {
                 Buy.findAll({
@@ -119,7 +119,7 @@ describe('/shopping_lists/:shopping_list_Id/users/:userId/candidates/:candidateI
                 }).then((buys) => {
                   assert.strictEqual(buys.length, 1);
                   assert.strictEqual(buys[0].buy, 2);
-                  deleteShopping_listAggregate(shopping_list_Id, done, err);
+                  deleteShopping_ListAggregate(shopping_list_Id, done, err);
                 });
               });
           });
@@ -163,7 +163,7 @@ describe('/shopping_lists/:shopping_list_Id/users/:userId/comments', () => {
               }).then(comments => {
                 assert.strictEqual(comments.length, 1);
                 assert.strictEqual(comments[0].comment, 'testcomment');
-                deleteShopping_listAggregate(shopping_list_Id, done, err);
+                deleteShopping_ListAggregate(shopping_list_Id, done, err);
               });
             });
         });
@@ -206,7 +206,7 @@ describe('/shopping_lists/:shopping_list_Id?edit=1', () => {
                 assert.strictEqual(candidates.length, 2);
                 assert.strictEqual(candidates[0].candidateName, 'テスト更新候補1');
                 assert.strictEqual(candidates[1].candidateName, 'テスト更新候補2');
-                deleteShopping_listAggregate(shopping_list_Id, done, err);
+                deleteShopping_ListAggregate(shopping_list_Id, done, err);
               });
             });
         });
@@ -280,7 +280,7 @@ describe('/shopping_lists/:shopping_list_Id?delete=1', () => {
             }).then((comments) => {
               assert.strictEqual(!comments.length, true);
             });
-            const p2 = Buys.findAll({
+            const p2 = Buy.findAll({
               where: { shopping_list_Id: shopping_list_Id }
             }).then((buys) => {
               assert.strictEqual(!buys.length, true);

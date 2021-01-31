@@ -1,20 +1,23 @@
 extends layout
 
 block content
-  h3 予定の編集
+  h3.my-3 予定の編集
   form(method="post", action=`/shopping_lists/${shopping_list.shopping_list_Id}?edit=1`)
-    div
-      h5 予定名
-      input(type="text" name="shopping_list_Name" value=shopping_list.shopping_list_Name)
-    div
-      h5 メモ
-      textarea(name="memo") #{shopping_list.memo}
-    div
-      label 既存の候補日程
-      ul
+    div.form-group
+      label(for="shopping_list_Name") 予定名
+      input(type="text" name="shopping_list_Name" value=shopping_list.shopping_list_Name)#shopping_list.form-control
+    div form-group
+      label(for="memo") メモ
+      textarea(name="memo")#memo.form-control #{shopping_list.memo}
+    div.form-group
+      label 既存のお買いもの候補
+      ul.list-group
         each candidate in candidates
-          li #{candidate.candidateName}
-      p 候補日程の追加 (改行して複数入力してください)
-      textarea(name="candidates")
+          li.list-group-item #{candidate.candidateName}
+      label(for="candidates").my-2 お買いもの候補の追加 (改行して複数入力してください)
+      textarea(name="candidates")#candidates.form-control
     div
-      button(type="submit") 以上の内容で予定を編集する
+      button(type="submit").btn.vtn-info 以上の内容でお買いものリストを編集する
+  h3.my-3 危険な変更
+  form(method="post",action=`/shopping_lists/${shopping_list.shopping_list_Id}?delete=1`)
+    button(type="submit").btn.btn-danger この予定を削除する

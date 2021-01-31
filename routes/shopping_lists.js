@@ -29,7 +29,7 @@ router.post('/', authenticationEnsurer, (req, res, next) => {
     createCandidatesAndRedirect
     (parseCandidateNames(req),
     shopping_list_Id,res);
-    });
+    });//createCandidatesAndRedirect関数で候補の作成とリダイレクト
   });
   
 //sequelzeを利用してテーブル結合してユーザーを取得
