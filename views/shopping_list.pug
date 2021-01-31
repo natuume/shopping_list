@@ -12,12 +12,12 @@ block content
   if isMine
     div
       a(href=`/shopping_lists/${shopping_list.shopping_list_Id}/edit`).btn.btn-info この予定を編集する
-  h3.my-3 〇✕表
+  h3.my-3 お買いものリスト
   table.table.table-bordered
     tr
-      th お買いものリスト
+      th 買い物するもの
       each user in users
-        th #{user.username}
+        th 買い物する人：#{user.username}
     each candidate in candidates
       tr
         th #{candidate.candidateName}
