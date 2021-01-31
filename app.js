@@ -75,7 +75,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({ secret: 'e55be81b307c1c09', resave: false, saveUninitialized: false }));
+app.use(session({ secret: 'c1c3cffd938e97b7', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
