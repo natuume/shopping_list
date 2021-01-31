@@ -21,12 +21,12 @@ describe('/login', () => {
     passportStub.uninstall(app);
   });
 
-  test('ログインのためのリンクが含まれる', () => {
+  test('ログインのためのリンクが含まれる', (done) => {
     return request(app)
       .get('/login')
-      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect('Content-Type', 'text/pug; charset=utf-8')
       .expect(/<a class="btn btn-info my-3" href="\/auth\/github"/)
-      .expect(200);
+      .expect(200, done);
   });
 
   test('ログイン時はユーザー名が表示される', () => {

@@ -6,7 +6,7 @@ block content
     p.lead お買い物リストは、GitHubで認証でき、お買い物リストを作って効率的なお買い物をするためのサービスです
   if user
     div
-      a(href="/shopping_list/new").btn.btn-info お買い物リストを作る
+      a(href="/shopping_lists/new").btn.btn-info お買い物リストを作る
     - var hasShopping_list = shopping_lists.length > 0
     if hasShopping_list
       h3.my-3 あなたの作ったお買い物リスト一覧
