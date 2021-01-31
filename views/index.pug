@@ -9,7 +9,7 @@ block content
       a(href="/shopping_lists/new").btn.btn-info お買い物リストを作る
     - var hasShopping_list = shopping_lists.length > 0
     if hasShopping_list
-      h3.my-3 あなたの作ったお買い物リスト一覧
+      h3.my-3 #{user.username}の作ったお買い物リスト一覧
       table.table
         tr
           th リスト名
