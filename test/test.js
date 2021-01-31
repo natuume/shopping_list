@@ -67,7 +67,6 @@ describe('/shopping_lists', () => {
         .end((err, res) => {
           const createdShopping_listPath = res.headers.location;
           request(app)
-            .get(createdShopping_listPath)
             .expect(/テスト予定1/)
             .expect(/テストメモ1/)
             .expect(/テストメモ2/)
@@ -99,7 +98,6 @@ describe('/shopping_lists/:shopping_list_Id/users/:userId/candidates/:candidateI
         .send({ shopping_list_Name: 'テスト出欠更新予定1', memo: 'テスト出欠更新メモ1', candidates: 'テスト出欠更新候補1' })
         .end((err, res) => {
           const createdShopping_listPath = res.headers.location;
-          const shopping_list_Id = createdShopping_listPath.split('/shopping_lists/')[1];
           Candidate.findOne({
             where: { shopping_list_Id: shopping_list_Id }
           }).then((candidate) => {
@@ -225,8 +223,6 @@ describe('/shopping_lists/:shopping_list_Id?delete=1', () => {
         .send({ shopping_list_Name: 'テスト更新予定1', memo: 'テスト更新メモ1', candidates: 'テスト更新候補1' })
         .end((err, res) => {
           const createdShopping_listPath = res.headers.location;
-          const shopping_list_Id = createdShopping_listPath.split('/shopping_lists/')[1];
-
           // 〇✕作成
           const promiseBuy = Candidate.findOne({
             where: { shopping_list_Id: shopping_list_Id }

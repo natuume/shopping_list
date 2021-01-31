@@ -1,0 +1,7 @@
+{
+  "name": "huyucon2020",
+  "description": "お買いものリスト",
+  "logo": "",
+  "keywords": ["node"],
+  "image": "heroku/nodejs"
+}

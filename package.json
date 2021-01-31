@@ -37,6 +37,9 @@
     "webpack": "4.26.1",
     "webpack-cli": "3.1.2"
   },
+  "engines": {
+    "node": "~10"
+  },
   "main": "index.js",
   "author": "natuume <nonegemu3e@gmail.com>",
   "license": "MIT"
