@@ -1,6 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
-// var favicon = require('serve-favicon');//To doあとで追加
+var favicon = require('serve-favicon');//ファビコン
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -70,9 +70,8 @@ app.use(helmet());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// uncomment after placing your favicon in /public(あとでファビコンいれる)
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));//ログへ標準出力
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
