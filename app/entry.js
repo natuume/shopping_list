@@ -24,9 +24,9 @@ $('.buy-toggle-button').each((i, e) => {
         button.removeClass('btn-danger btn-secondary btn-success');
         button.addClass(buttonStyles[data.buy]);
 
-        const tdBuyClasses = ['bg-danger', 'bg-default', 'bg-success'];
-        button.parent().removeClass('bg-danger bg-default bg-success');
-        button.parent().addClass(tdBuyClasses[data.buy]);
+        // const tdBuyClasses = ['bg-danger', 'bg-default', 'bg-success'];
+        // button.parent().removeClass('bg-danger bg-default bg-success');
+        // button.parent().addClass(tdBuyClasses[data.buy]);//ToDoどこから来たのか謎なので後で追う
       });
   });
 });

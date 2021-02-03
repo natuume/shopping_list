@@ -4,6 +4,7 @@ const router = express.Router();
 const authenticationEnsurer = require('./authentication-ensurer');
 const Buy = require('../models/buy');
 
+//出欠の更新　AJAX使用
 router.post('/:shopping_list_Id/users/:userId/candidates/:candidateId',authenticationEnsurer,(req ,res ,next) => {
     const shopping_list_Id = req.params.shopping_list_Id;
     const userId =req.params.userId;
@@ -17,7 +18,7 @@ router.post('/:shopping_list_Id/users/:userId/candidates/:candidateId',authentic
       candidateId: candidateId,
       buy :buy
     }).then(() =>{
-      res.json({ status: 'OK', buy: buy});
+      res.json({ status: 'OK', buy: buy});//JSONで返る設定
     });
   }
 );

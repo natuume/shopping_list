@@ -1,5 +1,5 @@
 # お買い物リストのREADMEへようこそ！ 
-
+[![CircleCI](https://circleci.com/gh/natuume/https://github.com/natuume/shopping_list-yarn.svg?style=svg)](https://circleci.com/gh/natuume/https://github.com/natuume/shopping_list-yarn)
 ## 実際に動くWebページへのURLはこちら 
 - URL:[https://murmuring-dawn-70315.herokuapp.com/](https://murmuring-dawn-70315.herokuapp.com/)
 
@@ -25,11 +25,11 @@
 
 ### 追加したい機能
  - ~~favicon~~ 作りました。
- - 404のページが丸裸なので何とかする(bootstrapつけられてない)
- - Bootstrapでおしゃれなページを目指す
- - リストの編集から「お買いもの候補一覧」
+ - ~~404のページが丸裸なので何とかする(bootstrapつけられてない)~~ 勘違いしてました。Heroku側で問題無い状態になるのでした。
+ - Bootstrapでおしゃれなページを目指す→
+ - リストの編集から「お買いもの候補一覧」の削除~~ ~~
  - 使い方をREADMEに書く
-
+ - Circle CIを付けよう
 
 ### 反省
  - 早く予習すべきだった
@@ -43,3 +43,4 @@
   答えのあるバグ１つとるのに自分だと3日以上かかるので夏ぐらいから始めないといけない気がしました。
   また来年もチャレンジ出来るならばしようと思います。
 
+faviconはCanvaを使って作りました。[Canva](https://www.canva.com/)

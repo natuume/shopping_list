@@ -10,6 +10,7 @@ block content
     div.form-group
       label(for="memo") メモ
       textarea(name="memo")#memo.form-control #{shopping_list.memo}
+    //- お買い物候補、ここを編集
     div.form-group
       label お買いもの候補一覧
       ul.list-group
@@ -17,6 +18,7 @@ block content
           li.list-group-item #{candidate.candidateName}
       label(for="candidates").my-2 お買いもの候補の追加 (改行して複数入力してください)
       textarea(name="candidates")#candidates.form-control
+      //- ここまで
     div
       button(type="submit").btn.vtn-info 以上の内容でお買いものリストを編集する
   h3.my-3 リストの削除（元に戻せません）
