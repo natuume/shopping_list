@@ -1,5 +1,5 @@
 # お買い物リストのREADMEへようこそ！ 
-[![CircleCI](https://circleci.com/gh/natuume/https://github.com/natuume/shopping_list-yarn.svg?style=svg)](https://circleci.com/gh/natuume/https://github.com/natuume/shopping_list-yarn)
+[![CircleCI](https://circleci.com/gh/natuume/shopping_list.svg?style=svg)](https://circleci.com/gh/natuume/shopping_list)
 ## 実際に動くWebページへのURLはこちら 
 - URL:[https://murmuring-dawn-70315.herokuapp.com/](https://murmuring-dawn-70315.herokuapp.com/)
 
