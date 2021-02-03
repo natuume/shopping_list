@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="8" failures="6" time="28.277">
+  <testsuite name="/login" errors="0" failures="6" skipped="0" timestamp="2021-02-03T12:18:37" time="20.763" tests="8">
+    <testcase classname="/login ログインのためのリンクが含まれる" name="/login ログインのためのリンクが含まれる" time="4.282">
+    </testcase>
+    <testcase classname="/login ログイン時はユーザー名が表示される" name="/login ログイン時はユーザー名が表示される" time="0.057">
+      <failure>Error: expected body &apos;&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;&lt;/title&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css&quot; integrity=&quot;sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/head&gt;&lt;body&gt;&lt;nav class=&quot;navbar navbar-light bg-light&quot;&gt;&lt;div class=&quot;navbar-header&quot;&gt;&lt;a class=&quot;navbar-brand nav-link&quot; href=&quot;/&quot;&gt;お買いものリスト&lt;/a&gt;&lt;/div&gt;&lt;ul class=&quot;navbar-nav&quot;&gt;&lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link&quot; href=&quot;/login&quot;&gt;ログイン&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;&lt;div class=&quot;container&quot;&gt;&lt;a class=&quot;btn btn-info my-3&quot; href=&quot;/auth/github&quot;&gt;GitHubでログイン&lt;/a&gt;&lt;/div&gt;&lt;script src=&quot;/javascripts/bundle.js&quot;&gt;&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;&apos; to match /testuser/
+    at error (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:301:13)
+    at Test.Object.&lt;anonymous&gt;.Test._assertBody (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:215:16)
+    at Test.Object.&lt;anonymous&gt;.Test._assertFunction (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:283:11)
+    at Test.Object.&lt;anonymous&gt;.Test.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:173:18)
+    at Server.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:131:12)
+    at Object.onceWrapper (events.js:273:13)
+    at Server.emit (events.js:182:13)
+    at emitCloseNT (net.js:1629:8)
+    at process._tickCallback (internal/process/next_tick.js:63:19)</failure>
+    </testcase>
+    <testcase classname="/logout / にリダイレクトされる" name="/logout / にリダイレクトされる" time="0.024">
+    </testcase>
+    <testcase classname="/shopping_lists 予定が作成でき、表示される" name="/shopping_lists 予定が作成でき、表示される" time="0.183">
+      <failure>TypeError: request(...).expect is not a function
+    at Test.request.post.send.expect.expect.end (/home/vagrant/workspace/shopping_list/test/test.js:72:14)
+    at Test.Object.&lt;anonymous&gt;.Test.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:181:6)
+    at Server.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:131:12)
+    at Object.onceWrapper (events.js:273:13)
+    at Server.emit (events.js:182:13)
+    at emitCloseNT (net.js:1629:8)
+    at process._tickCallback (internal/process/next_tick.js:63:19)</failure>
+    </testcase>
+    <testcase classname="/shopping_lists/:shopping_list_Id/users/:userId/candidates/:candidateId 出欠が更新できる" name="/shopping_lists/:shopping_list_Id/users/:userId/candidates/:candidateId 出欠が更新できる" time="0.061">
+      <failure>ReferenceError: shopping_list_Id is not defined
+    at Test.request.post.send.end (/home/vagrant/workspace/shopping_list/test/test.js:104:40)
+    at Test.Object.&lt;anonymous&gt;.Test.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:181:6)
+    at Server.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:131:12)
+    at Object.onceWrapper (events.js:273:13)
+    at Server.emit (events.js:182:13)
+    at emitCloseNT (net.js:1629:8)
+    at process._tickCallback (internal/process/next_tick.js:63:19)</failure>
+    </testcase>
+    <testcase classname="/shopping_lists/:shopping_list_Id/users/:userId/comments コメントが更新できる" name="/shopping_lists/:shopping_list_Id/users/:userId/comments コメントが更新できる" time="0.068">
+      <failure>TypeError: Cannot read property &apos;split&apos; of undefined
+    at Test.request.post.send.end (/home/vagrant/workspace/shopping_list/test/test.js:145:61)
+    at Test.Object.&lt;anonymous&gt;.Test.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:181:6)
+    at Server.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:131:12)
+    at Object.onceWrapper (events.js:273:13)
+    at Server.emit (events.js:182:13)
+    at emitCloseNT (net.js:1629:8)
+    at process._tickCallback (internal/process/next_tick.js:63:19)</failure>
+    </testcase>
+    <testcase classname="/shopping_lists/:shopping_list_Id?edit=1 予定が更新でき、候補が追加できる" name="/shopping_lists/:shopping_list_Id?edit=1 予定が更新でき、候補が追加できる" time="0.105">
+      <failure>TypeError: Cannot read property &apos;split&apos; of undefined
+    at Test.request.post.send.end (/home/vagrant/workspace/shopping_list/test/test.js:185:61)
+    at Test.Object.&lt;anonymous&gt;.Test.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:181:6)
+    at Server.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:131:12)
+    at Object.onceWrapper (events.js:273:13)
+    at Server.emit (events.js:182:13)
+    at emitCloseNT (net.js:1629:8)
+    at process._tickCallback (internal/process/next_tick.js:63:19)</failure>
+    </testcase>
+    <testcase classname="/shopping_lists/:shopping_list_Id?delete=1 予定に関連する全ての情報が削除できる" name="/shopping_lists/:shopping_list_Id?delete=1 予定に関連する全ての情報が削除できる" time="0.043">
+      <failure>ReferenceError: shopping_list_Id is not defined
+    at Test.request.post.send.end (/home/vagrant/workspace/shopping_list/test/test.js:230:40)
+    at Test.Object.&lt;anonymous&gt;.Test.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:181:6)
+    at Server.assert (/home/vagrant/workspace/shopping_list/node_modules/supertest/lib/test.js:131:12)
+    at Object.onceWrapper (events.js:273:13)
+    at Server.emit (events.js:182:13)
+    at emitCloseNT (net.js:1629:8)
+    at process._tickCallback (internal/process/next_tick.js:63:19)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

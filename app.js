@@ -7,6 +7,8 @@ var logger = require('morgan');
 var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
+// var Strategy = require('passport-twitter').Strategy;//Twitter認証　→エラーで出来なかったので後日。
+var config = require('./config');//Twitterのファイル　config.js
 
 /*モデルの読み込みとモデルの関係のの定義（リレーションの設定） */
 // モデルの読み込み
@@ -59,12 +61,33 @@ passport.use(new GitHubStrategy({
   }
 ));
 
+//passportの読み込みTwitter、Github共通部分
+passport.serializeUser(function(user, cb) {
+cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+cb(null, obj);
+});
 var routes = require('./routes/index');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
 var shopping_lists = require('./routes/shopping_lists');
 var buys = require('./routes/buys');
 var comments = require('./routes/comments');
+
+// /*Twitter認証のストラテジーモジュール*/
+// passport.use(new Strategy({
+//   consumerKey: config.twitter.consumerKey,
+//   consumerSecret: config.twitter.consumerSecret,
+//   callbackURL: config.twitter.callbackURL
+// },
+// function(token, tokenSecret, profile, cb) {
+//   process.nextTick(function () {
+//     return cb(null, profile);
+//   });
+// })
+// );
 
 var app = express();
 app.use(helmet());
@@ -80,6 +103,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//認証時のミドルウェア
 app.use(session({ secret: 'c1c3cffd938e97b7', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -91,6 +115,7 @@ app.use('/shopping_lists', shopping_lists);
 app.use('/shopping_lists', buys);
 app.use('/shopping_lists', comments);
 
+//Githubの方の認証
 app.get('/auth/github',
   passport.authenticate('github', { scope: ['user:email'] }),
   function (req, res) {
@@ -110,6 +135,49 @@ app.get('/auth/github/callback',
       res.redirect('/');
     }
   });
+
+// //Twitterの方の認証　→Could not authenticate you.になって認証できなかったので、また後日。
+// passport.use(new Strategy({
+//   consumerKey: config.twitter.consumerKey,
+//   consumerSecret: config.twitter.consumerSecret,
+//   callbackURL: config.twitter.callbackURL
+// },
+// function(token, tokenSecret, profile, cb) {
+//   process.nextTick(function () {
+//     return cb(null, profile);
+//   });
+// })
+// );
+
+// passport.serializeUser(function(user, cb) {
+// cb(null, user);
+// });
+
+// passport.deserializeUser(function(obj, cb) {
+// cb(null, obj);
+// });
+
+
+//   app.get('/login/twitter',
+//   passport.authenticate('twitter')
+// );
+
+// app.get('/oauth_callback',
+//   passport.authenticate('twitter', { failureRedirect: '/' }),
+//   function(req, res) {
+//     res.redirect('/');
+//   }
+// );
+
+// app.get('/logout', function (req, res) {
+//   req.logout();
+//     res.redirect('/');
+// });
+
+// function ensureAuthenticated(req, res, next) {
+//   if (req.isAuthenticated()) { return next(); }
+//   res.redirect('/');
+// }
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

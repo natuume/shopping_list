@@ -16,8 +16,8 @@ router.get('/new', authenticationEnsurer, csrfProtection, (req, res, next) => {
 });
 
 router.post('/', authenticationEnsurer, csrfProtection, (req, res, next) => {
-  const shopping_list_Id = uuid.v4();
-  const updatedAt = new Date();
+  const shopping_list_Id = uuid.v4();//UUID生成
+  const updatedAt = new Date();//更新日時生成
   Shopping_list.create({
     shopping_list_Id: shopping_list_Id,
     shopping_list_Name: req.body.shopping_list_Name.slice(0, 255) || '（名称未設定）',
@@ -125,16 +125,16 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
 
 //予定編集フォーム
 router.get('/:shopping_list_Id/edit', authenticationEnsurer, csrfProtection, (req, res, next) => {
-  Shopping_list.findOne({
+  Shopping_list.findOne({//Shopping_listからShopping_listのIDを取得
     where: {
       shopping_list_Id: req.params.shopping_list_Id
     }
   }).then((shopping_list) => {
     if (isMine(req, shopping_list)) { // 作成者のみが編集フォームを開ける
-      Candidate.findAll({
+      Candidate.findAll({//Candidateから以下のものを探す
         where: { shopping_list_Id: shopping_list.shopping_list_Id },
-        order: [['"candidateId"', 'ASC']]//予定Idを　ASC=昇順に並べる（作成準に並べ替え）
-      }).then((candidates) => {
+        order: [['"candidateId"', 'ASC']]//ショッピングリストのIdを　ASC=昇順に並べる（作成順に並べ替え）
+      }).then((candidates) => {//候補を取得
         res.render('edit', {
           user: req.user,
           shopping_list: shopping_list,
@@ -151,24 +151,24 @@ router.get('/:shopping_list_Id/edit', authenticationEnsurer, csrfProtection, (re
 });
 
 function isMine(req, shopping_list) {
-  return shopping_list && parseInt(shopping_list.createdBy) === parseInt(req.user.id);
+  return shopping_list && parseInt(shopping_list.createdBy) === parseInt(req.user.id);//リクエストと予定のオブジェクトを受け取り真偽値を返す
 }
 //予定編集の反映
 router.post('/:shopping_list_Id', authenticationEnsurer, csrfProtection, (req, res, next) => {
-  Shopping_list.findOne({//予定IDの取得
+  Shopping_list.findOne({//Shopping_list IDの取得
     where: {
       shopping_list_Id: req.params.shopping_list_Id
     }
   }).then((shopping_list) => {
     if (shopping_list && isMine(req, shopping_list)) {
-      if (parseInt(req.query.edit) === 1) {
+      if (parseInt(req.query.edit) === 1) {//editのクエリがあるときのみ更新
         const updatedAt = new Date();
         shopping_list.update({
           shopping_list_Id: shopping_list.shopping_list_Id,
           shopping_list_Name: req.body.shopping_list_Name.slice(0, 255) || '（名称未設定）',
           memo: req.body.memo,
           createdBy: req.user.id,
-          updatedAt: updatedAt
+          updatedAt: updatedAt//Shopping_list名、メモ、作成者、更新日時を更新
         }).then((shopping_list) => {
           // 追加されているかチェック
           const candidateNames = parseCandidateNames(req);

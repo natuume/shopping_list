@@ -10,27 +10,26 @@ const Buy = require('../models/buy');
 const Comment = require('../models/comment');
 const deleteShopping_listAggregate = require('../routes/shopping_lists').deleteShopping_listAggregate;
 
-//ログイン時のリクエストテスト
-test('ログインのためのリンクが含まれる', (done) => {
-  return request(app)
-    .get('/login')
-    .expect('Content-Type', 'text/html; charset=utf-8')
-    .expect(/<a class="btn btn-info my-3" href="\/auth\/github"/)
-    .expect(200, done);
-});
-
 //passport-stubモジュールの読み込み
 describe('/login', () => {
-  beforeAll(() => {
+  beforeAll(() => {//ログインしてから
     passportStub.install(app);
     passportStub.login({ username: 'testuser' });
   });
 
-  afterAll(() => {
+  afterAll(() => {//ログアウトしてから
     passportStub.logout();
     passportStub.uninstall(app);
   });
 
+//ログイン時のリクエストテスト
+  test('ログインのためのリンクが含まれる', (done) => {
+    return request(app)
+      .get('/login')
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect(/<a class="btn btn-info my-3" href="\/auth\/github"/)
+      .expect(200, done);
+  });
 
   test('ログイン時はユーザー名が表示される', () => {
     return request(app)
