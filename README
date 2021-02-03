@@ -1,5 +1,5 @@
 # お買い物リストのREADMEへようこそ！ 
-
+[![CircleCI](https://circleci.com/gh/natuume/shopping_list.svg?style=svg)](https://circleci.com/gh/natuume/shopping_list)
 ## 実際に動くWebページへのURLはこちら 
 [ URL ]( https://murmuring-dawn-70315.herokuapp.com/ )
 
@@ -24,8 +24,6 @@
  
 
 ### 追加したい機能
- - favicon
- - 404のページが丸裸なので何とかする(bootstrapつけられてない)
  - Bootstrapでおしゃれなページを目指す
  - リストの編集から「お買いもの候補一覧」
  - 使い方をREADMEに書く
