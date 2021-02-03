@@ -1,7 +1,7 @@
 # お買い物リストのREADMEへようこそ！ 
 [![CircleCI](https://circleci.com/gh/natuume/shopping_list.svg?style=svg)](https://circleci.com/gh/natuume/shopping_list)
 ## 実際に動くWebページへのURLはこちら 
-[ URL ]( https://murmuring-dawn-70315.herokuapp.com/ )
+- URL:[https://murmuring-dawn-70315.herokuapp.com/](https://murmuring-dawn-70315.herokuapp.com/)
 
 ### 変更等 
 - お知らせしたURLから別のURLに変更しました（herokuが上手く上がらなかったので…）
@@ -38,5 +38,8 @@
  
 ### 感想
   思った以上にWebアプリを作るのは大変ということがわかりました。 1か月で綺麗に作れる人は本当にすごい！ 
-  答えのあるバグ１つとるのに自分だと3日かかるので夏ぐらいから始めないといけない気がしました。
+  答えのあるバグ１つとるのに自分だと3日以上かかるので夏ぐらいから始めないといけない気がしました。
   また来年もチャレンジ出来るならばしようと思います。
+
+#ファビコンをここで作りました便利！
+https://favicon.io/
