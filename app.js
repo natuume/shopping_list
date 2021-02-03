@@ -8,41 +8,44 @@ var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
 
+/*モデルの読み込みとモデルの関係のの定義（リレーションの設定） */
 // モデルの読み込み
 var User = require('./models/user');
 var Shopping_list = require('./models/shopping_list');
 var Buy = require('./models/buy');
 var Candidate = require('./models/candidate');
 var Comment = require('./models/comment');
+
+//モデルの関係　　外部キーの設定　（テーブル結合が必要なものだけ）
 User.sync().then(() => {
   Shopping_list.belongsTo(User, { foreignKey: 'createdBy' });
-  Shopping_list.sync();
+  Shopping_list.sync();// 主）User＞従）Shopping_list createByが外部キー　Shopping_listに対応するテーブル作成
   Comment.belongsTo(User, { foreignKey: 'userId' });
-  Comment.sync();
+  Comment.sync();//主）User＞従）Comment userIdが外部キー　Commentに対応するテーブル作成
   Buy.belongsTo(User, { foreignKey: 'userId' });
   Candidate.sync().then(() => {
     Buy.belongsTo(Candidate, { foreignKey: 'candidateId' });
-    Buy.sync();
+    Buy.sync();// 主）ユーザー＞従）ショッピングリスト candidateIdが外部キー　Buy(〇✕）に対応するテーブル作成
   });
 });
-
+/*GithubのOAuth認証のモジュールとID */
 var GitHubStrategy = require('passport-github2').Strategy;
 var GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID ||'036409f96cf485310de3';
 var GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || '0a411ddc830858c2f545d72c004b144c58a565f9';
 
-passport.serializeUser(function (user, done) {
-  done(null, user);
+passport.serializeUser(function (user, done) {//データ保存
+  done(null, user);//処理が終わったらdone関数呼び出し　
 });
 
-passport.deserializeUser(function (obj, done) {
+passport.deserializeUser(function (obj, done) {//データ読み出し
   done(null, obj);
 });
 
-
+//GithubのOAuth認証でCallBackする部分
 passport.use(new GitHubStrategy({
   clientID: GITHUB_CLIENT_ID,
   clientSecret: GITHUB_CLIENT_SECRET,
-  callbackURL: process.env.HEROKU_URL ? process.env.HEROKU_URL + 'auth/github/callback' : 'http://localhost:8000/auth/github/callback'
+  callbackURL: process.env.HEROKU_URL ? process.env.HEROKU_URL + 'auth/github/callback' : 'http://localhost:8000/auth/github/callback'//情報戻すURL
 },
   function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {

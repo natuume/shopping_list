@@ -43,6 +43,7 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
     },
     order: [['updatedAt', 'DESC']]
   }).then((shopping_list) => {
+    //データベースからお買い物リストとIDを取得する
     if (shopping_list) {
       storedShopping_list = shopping_list;
       return Candidate.findAll({
@@ -55,7 +56,7 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
       next(err);
     }
   }).then((candidates) => {
-    // データベースからその予定の全ての出欠を取得する
+    // データベースからその予定の全ての〇✕を取得する
     storedCandidates = candidates;
     return Buy.findAll({
       include: [
@@ -122,6 +123,7 @@ router.get('/:shopping_list_Id', authenticationEnsurer, (req, res, next) => {
   });
 });
 
+//予定編集フォーム
 router.get('/:shopping_list_Id/edit', authenticationEnsurer, csrfProtection, (req, res, next) => {
   Shopping_list.findOne({
     where: {
@@ -131,13 +133,13 @@ router.get('/:shopping_list_Id/edit', authenticationEnsurer, csrfProtection, (re
     if (isMine(req, shopping_list)) { // 作成者のみが編集フォームを開ける
       Candidate.findAll({
         where: { shopping_list_Id: shopping_list.shopping_list_Id },
-        order: [['"candidateId"', 'ASC']]
+        order: [['"candidateId"', 'ASC']]//予定Idを　ASC=昇順に並べる（作成準に並べ替え）
       }).then((candidates) => {
         res.render('edit', {
           user: req.user,
           shopping_list: shopping_list,
           candidates: candidates,
-          csrfToken: req.csrfToken()
+          csrfToken: req.csrfToken()//CSRF対策
         });
       });
     } else {
@@ -151,9 +153,9 @@ router.get('/:shopping_list_Id/edit', authenticationEnsurer, csrfProtection, (re
 function isMine(req, shopping_list) {
   return shopping_list && parseInt(shopping_list.createdBy) === parseInt(req.user.id);
 }
-
+//予定編集の反映
 router.post('/:shopping_list_Id', authenticationEnsurer, csrfProtection, (req, res, next) => {
-  Shopping_list.findOne({
+  Shopping_list.findOne({//予定IDの取得
     where: {
       shopping_list_Id: req.params.shopping_list_Id
     }
