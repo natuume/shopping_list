@@ -21,7 +21,7 @@ block content
       textarea(name="candidates")#candidates.form-control
       //- ここまで
     div
-      button(type="submit").btn.vtn-info 以上の内容でお買いものリストを編集する
+      button(type="submit").btn.btn-info 以上の内容でお買いものリストを編集する
   h3.my-3 リストの削除（元に戻せません）
   form(method="post",action=`/shopping_lists/${shopping_list.shopping_list_Id}?delete=1`)
     input(type="hidden" name="_csrf" value!=csrfToken)

@@ -8,7 +8,7 @@ var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
 // var Strategy = require('passport-twitter').Strategy;//Twitter認証　→エラーで出来なかったので後日。
-var config = require('./config');//Twitterのファイル　config.js
+// var config = require('./config');//Twitterのファイル　config.js
 
 /*モデルの読み込みとモデルの関係のの定義（リレーションの設定） */
 // モデルの読み込み
